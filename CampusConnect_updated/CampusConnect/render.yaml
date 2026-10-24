@@ -1,0 +1,55 @@
+services:
+  - type: web
+    name: campus-connect
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/health
+    disk:
+      name: campus-connect-data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.7
+      - key: AI_PROVIDER
+        value: sarvam
+      - key: SARVAM_BASE_URL
+        value: https://api.sarvam.ai/v2
+      - key: SARVAM_MODEL
+        value: sarvam-105b
+      - key: SARVAM_API_KEY
+        sync: false
+      - key: CAMPUS_DB_PATH
+        value: /var/data/campus_connect.sqlite3
+      - key: CAMPUS_DEMO_MODE
+        value: "false"
+      - key: CAMPUS_SEED_DEMO
+        value: "false"
+      - key: CAMPUS_SESSION_DAYS
+        value: "7"
+      - key: CAMPUS_COOKIE_SECURE
+        value: "true"
+      - key: CAMPUS_ADMIN_EMAIL
+        sync: false
+      - key: CAMPUS_ADMIN_PASSWORD
+        sync: false
+      - key: CAMPUS_ADMIN_NAME
+        value: Campus Connect Admin
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: CAMPUS_SMTP_HOST
+        value: ""
+      - key: CAMPUS_SMTP_PORT
+        value: "587"
+      - key: CAMPUS_SMTP_USERNAME
+        value: ""
+      - key: CAMPUS_SMTP_PASSWORD
+        value: ""
+      - key: CAMPUS_SMTP_FROM
+        value: ""
+      - key: CAMPUS_SMTP_STARTTLS
+        value: "true"
+      - key: CAMPUS_SMTP_TIMEOUT
+        value: "4"
